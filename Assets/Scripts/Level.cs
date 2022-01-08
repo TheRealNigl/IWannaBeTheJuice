@@ -1,13 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public enum LevelState 
 { 
     Stasis, Spawn, Wave, Boss, Restart
 }
 
-public class Level : MonoBehaviour 
+public class Level : MonoBehaviour
 {
     public LevelState LevelState { get; set; }
+
+    private List<Vector3> groundSpawnLocations = new List<Vector3>();
+
+    private List<Vector3> groundSpawnsRotations = new List<Vector3>();
 
     private EnemyManager EnemyManager;
 
@@ -19,6 +24,16 @@ public class Level : MonoBehaviour
 
         gameObject.name = "Level";
         gameObject.tag = "Level";
+
+        groundSpawnLocations.Add(new Vector3(0, -5.5f, 0));
+        groundSpawnLocations.Add(new Vector3(-18, 11, 0));
+        groundSpawnLocations.Add(new Vector3(18, 11, 0));
+        groundSpawnLocations.Add(new Vector3(0, 28, 0));
+
+        groundSpawnsRotations.Add(new Vector3(0, 0, 0));
+        groundSpawnsRotations.Add(new Vector3(0, 0, 90));
+        groundSpawnsRotations.Add(new Vector3(0, 0, 90));
+        groundSpawnsRotations.Add(new Vector3(0, 0, 0));
 
         EnemyManager = GetComponent<EnemyManager>();
         if (EnemyManager == null) {
@@ -67,7 +82,11 @@ public class Level : MonoBehaviour
 
         // Create the player and ground
         Player = Instantiate(Player);
-        Ground = Instantiate(Ground);
+        for (int groundCount = 0; groundCount < 4; groundCount++)
+        {
+            GameObject g = Instantiate(Ground);
+            g.GetComponent<Ground>().SetSpawn(groundSpawnLocations[groundCount], groundSpawnsRotations[groundCount]);
+        }
 
         // Put the Game in Statis
         LevelState = LevelState.Stasis;
@@ -129,9 +148,12 @@ public class Level : MonoBehaviour
         // Create Initial Values for the Wave
         EnemyManager.SetInitialValuesForWave();
 
-        //Player.GetComponent<Rigidbody2D>().position = Player.GetComponent<Player>().StartLocation();
+        Player.GetComponent<Rigidbody2D>().position = Player.GetComponent<Player>().StartLocation();
         EnemyManager.ClearWave();
-        Destroy(BossClone);
+        if (BossClone != null)
+        {
+            Destroy(BossClone);
+        }
         LevelState = LevelState.Stasis;
     }
 }

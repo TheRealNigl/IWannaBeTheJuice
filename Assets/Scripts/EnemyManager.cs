@@ -7,15 +7,11 @@ public class EnemyManager : MonoBehaviour
     private List<JuiceDrop> Drops;
     private List<Fire> Fires;
 
-    private List<GameObject> Objects;
-
     public void Start() {
 
         Spikes = new List<Spike>();
         Drops = new List<JuiceDrop>();
         Fires = new List<Fire>();
-
-        Objects = new List<GameObject>();
 
         Wave.WaveLevel = 0;
         Wave.FinalWaveLevel = RandomHelper.NextRandom(3, 5);
@@ -46,57 +42,59 @@ public class EnemyManager : MonoBehaviour
     }
 
     public void AddObserver(Spike observer) {
-
-        Spikes.Add(observer);
         GameObject g = Instantiate(observer.gameObject);
-        Spikes[Wave.SpikesSpawnAmount] = g.GetComponent<Spike>();
+        Spikes.Add(g.GetComponent<Spike>());
         Wave.SpikesSpawnAmount++;
-        Objects.Add(g);
     }
 
     public void AddObserver(JuiceDrop observer) {
-
-        Drops.Add(observer);
         GameObject g = Instantiate(observer.gameObject);
-        Drops[Wave.DropsSpawnAmount] = g.GetComponent<JuiceDrop>();
+        Drops.Add(g.GetComponent<JuiceDrop>());
         Wave.DropsSpawnAmount++;
-        Objects.Add(g);
     }
 
     public void AddObserver(Fire observer) {
-
-        Fires.Add(observer);
         GameObject g = Instantiate(observer.gameObject);
-        Fires[Wave.FiresSpawnAmount] = g.GetComponent<Fire>();
+        Fires.Add(g.GetComponent<Fire>());
         Wave.FiresSpawnAmount++;
-        Objects.Add(g);
-    }
-
-    public void RemoveObserver(Spike observer) {
-        Spikes.Remove(observer);
-    }
-
-    public void RemoveObserver(JuiceDrop observer) {
-        Drops.Remove(observer);
-    }
-
-    public void RemoveObserver(Fire observer) {
-        Fires.Remove(observer);
     }
 
     public void ClearWave() {
 
-        foreach (Spike g in Spikes) {
-            RemoveObserver(g);
-            Destroy(g.gameObject);
+        if (Spikes.Count > 0)
+        {
+            foreach (Spike g in Spikes)
+            {
+                if (g != null)
+                {
+                    Destroy(g.gameObject);
+                }
+            }
+            Spikes = new List<Spike>();
         }
-        foreach (JuiceDrop g in Drops) {
-            RemoveObserver(g);
-            Destroy(g.gameObject);
+        if (Drops.Count > 0)
+        {
+            foreach (JuiceDrop g in Drops)
+            {
+                if (g != null)
+                {
+                    Destroy(g.gameObject);
+                }
+            }
+            Drops = new List<JuiceDrop>();
         }
-        foreach (Fire g in Fires) {
-            RemoveObserver(g);
-            Destroy(g.gameObject);
+
+        if (Fires.Count > 0)
+        {
+            foreach (Fire g in Fires)
+            {
+                if (g != null)
+                {
+                    Destroy(g.gameObject);
+                }
+            }
+            Fires = new List<Fire>();
         }
+        
     }
 }

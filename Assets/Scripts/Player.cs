@@ -66,6 +66,7 @@ public class Player : Movement
     }
 
     public Vector2 StartLocation(){
+        Location = Vector2.zero;
         return Location;
     }
 }

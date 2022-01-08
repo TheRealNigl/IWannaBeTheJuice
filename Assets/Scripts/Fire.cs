@@ -10,7 +10,7 @@ public class Fire : ScrollingObject
         gameObject.name = "Fire";
         gameObject.tag = "Evil";
 
-        Location = new Vector3(RandomHelper.NextRandom(-5, 5), -5, 0);
+        Location = new Vector3(RandomHelper.NextRandom(-5, 5), -5.5f, 0);
         transform.position = Location;
 
         MeshRenderer = gameObject.GetComponent<MeshRenderer>();
