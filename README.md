@@ -1,6 +1,6 @@
 # IWannaBeTheBoshy
 
 
-Intended replica IWannaBeTheBoshy game.
+IWannaBeTheBoshy Spin-off
 
-Have spikes, juice drops, and fire as enemies. You survive waves of enemies, then collect the juice by defeating the juice box.
+Survive levels through spikes going across the ground, fire spawning as the ground, and rain drops falling from the sky. You survive waves of enemies, then collect juice by defeating the juice box.
